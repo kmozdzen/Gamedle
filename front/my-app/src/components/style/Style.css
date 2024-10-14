@@ -1,0 +1,36 @@
+.start-container, .game-container {
+    width: 100vw;
+    height: 100vh;
+    background-image: url('../../../public/images/game-background.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.start-container .start-container-container, .game-container .game-container-container
+{
+    width: 450px;
+}
+
+.start-up-menu
+{
+    background-color: black;
+    border-radius: 30px;
+    border: 3px solid gold;
+    height: 80px;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.gear-icon
+{
+    color: white;
+    font-size: 2rem;
+}
+
+.poland-icon
+{
+    width: 40px;
+}
+

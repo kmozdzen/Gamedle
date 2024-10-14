@@ -14,4 +14,16 @@ public class Game {
 
     @Column
     String name;
+
+    @Column
+    int year;
+
+    @Column
+    String genre;
+
+    @Column
+    String platform;
+
+    @Column
+    String publisher;
 }

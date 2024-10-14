@@ -9,6 +9,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/games")
+@CrossOrigin(origins = "http://localhost:3000")
 public class GameController{
     private final GameService gameService;
 
@@ -21,8 +22,23 @@ public class GameController{
         return gameService.getAll();
     }
 
+    @GetMapping("/{id}")
+    Game get(@PathVariable int id){
+        return gameService.get(id);
+    }
+
     @PostMapping("/")
     Game add(@RequestBody Game game){
         return gameService.add(game);
+    }
+
+    @DeleteMapping("/{id}")
+    void delete(@PathVariable int id){
+         gameService.delete(id);
+    }
+
+    @PutMapping("/{id}")
+    Game update(@PathVariable int id, @RequestBody Game game){
+        return gameService.update(id, game);
     }
 }
