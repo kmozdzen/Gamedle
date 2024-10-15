@@ -1,3 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&family=Ubuntu&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu&display=swap');
+
+/* Ustaw szerokość i wysokość na 100% oraz usuń domyślne marginesy */
+* {
+    font-family: 'Ubuntu', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; /* Umożliwia lepsze zarządzanie wymiarami */
+}
+
 .start-container, .game-container {
     width: 100vw;
     height: 100vh;
@@ -5,32 +17,32 @@
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.start-container .start-container-container, .game-container .game-container-container
-{
-    width: 450px;
+.start-container .start-container-container, .game-container .game-container-container {
+    width: 550px;
 }
 
-.start-up-menu
-{
+.start-up-menu {
     background-color: black;
     border-radius: 30px;
     border: 3px solid gold;
-    height: 80px;
+    height: 100px;
 
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
-.gear-icon
-{
+.gear-icon {
     color: white;
     font-size: 2rem;
 }
 
-.poland-icon
-{
+.poland-icon {
     width: 40px;
 }
-

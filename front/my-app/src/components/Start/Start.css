@@ -34,3 +34,11 @@
     font-size: 1.5rem;
     text-align: center;
 }
+
+.start-down-menu-row
+{
+    display: flex;                /* Ustawienie elastycznego kontenera */
+    flex: 1 1 auto;              /* Umożliwia elastyczne wypełnienie dostępnej przestrzeni */
+    justify-content: center;      /* Wyśrodkowanie w poziomie */
+    align-items: center;          /* Wyśrodkowanie w pionie */
+}

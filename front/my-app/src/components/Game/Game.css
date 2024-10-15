@@ -11,7 +11,7 @@
     color: white;
 }
 
-.game-title
+.game-title-menu .game-title
 {
     text-align: center;
     margin: auto;
@@ -36,14 +36,101 @@
 }
 
 .game-container .guess-button {
-    background-color: #FFE662;
-    border: 3px solid gold;
-    transition: background-color 0.3s, border-color 0.3s; /* Opcjonalnie, dla efektu przejścia */
+    background-color: rgba(255, 255, 255, 0);
+    border: none;
 }
 
 .game-container .guess-button:focus,
 .game-container .guess-button:active { /* Obsługuje zarówno focus, jak i kliknięcie */
-    background-color: #FFE662; /* Zachowuje ten sam kolor tła */
-    border: 3px solid gold; /* Zachowuje ten sam kolor obramowania */
-    outline: none; /* Usuń domyślną ramkę focus */
+    background-color: rgba(255, 255, 255, 0);
+    border: none;
+}
+
+.game-drop-down-menu
+{
+    margin: auto;
+    width: 85%;
+
+}
+
+.game-drop-down-menu input
+{
+    background-color: #FFE662;
+    border: 3px solid gold;
+    outline: none;
+}
+
+.game-drop-down-menu input:focus,
+.game-drop-down-menu input:active { /* Obsługuje zarówno focus, jak i kliknięcie */
+    background-color: #FFE662;
+    border: 3px solid gold;
+    outline: none;
+}
+
+
+.paper-plane-icon-border
+{
+    border: 2px solid black;
+    border-radius: 5px;
+    padding: 7px;
+    background-color: #FFE662;
+    transition: background-color 0.5s, border-color 0.5s;
+}
+
+.paper-plane-icon-border:hover
+{
+    background-color:gold;
+}
+
+#autocomplete-input
+{
+    background-color: #FFE662;
+    border: 1px solid gold;
+}
+
+#autocomplete-input a:hover
+{
+    background-color:  gold;
+}
+
+#autocomplete-input mark
+{
+    background-color: inherit;
+}
+
+.game-card
+{
+    border: 1px solid black;
+    margin: auto !important;
+}
+
+.game-card-title
+{
+    margin: auto;
+    text-align: center;
+}
+
+.game-card-label-container
+{
+    display: flex;
+    justify-content: center;
+    text-align: center;
+}
+
+.game-card-label
+{
+    margin: auto;
+    color:gold;
+    font-size: 1rem;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+
+.game-card-hr
+{
+    border: none;
+    height: 2px;
+    /* Set the hr color */
+    color: gold; 
+    background-color: gold; 
+    opacity: 100%;;
 }

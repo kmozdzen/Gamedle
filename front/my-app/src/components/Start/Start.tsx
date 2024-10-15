@@ -13,16 +13,16 @@ const Start = () => {
                 <Row className="start-down-menu" style={{ flex: '1' }}>
                     <Container fluid="md" className="d-flex flex-column" style={{ height: '100%' }}>
                         <GameTitle />
-                        <Row className="flex-fill justify-content-center align-items-center">
+                        <Row className="start-down-menu-row">
                             <CategoryButton page="/game" title="Klasyczne" description="Odgadnij grę po wskazówkach" />
                         </Row>
-                        <Row className="flex-fill justify-content-center align-items-center">
-                            <CategoryButton title="Postać" description="Odgadnij postać po arcie" />
+                        <Row className="start-down-menu-row">
+                            <CategoryButton page="/character"title="Postać" description="Odgadnij postać po arcie" />
                         </Row>
-                        <Row className="flex-fill justify-content-center align-items-center">
-                            <CategoryButton title="Dźwięk" description="Odgadnij grę po dźwięku" />
+                        <Row className="start-down-menu-row">
+                            <CategoryButton page="/sound" title="Dźwięk" description="Odgadnij grę po dźwięku" />
                         </Row>
-                        <Row className="flex-fill justify-content-center align-items-center">
+                        <Row className="start-down-menu-row">
                             gamedle 2024
                         </Row>
                     </Container>

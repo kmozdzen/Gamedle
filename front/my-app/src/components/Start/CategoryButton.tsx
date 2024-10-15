@@ -3,7 +3,13 @@ import React from 'react';
 import { Button } from 'react-bootstrap';
 import { useNavigate } from "react-router-dom";
 
-const CategoryButton = ({ title, description, page }) => {
+interface CategoryButtonProps{
+    title: string;
+    description: string;
+    page: string;
+}
+
+const CategoryButton: React.FC<CategoryButtonProps> = ({ title, description, page }) => {
     const navigate = useNavigate();
 
     const moveToClassicCategoryPage = () => {
