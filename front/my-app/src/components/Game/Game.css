@@ -108,6 +108,7 @@
 {
     margin: auto;
     text-align: center;
+    font-size: 1rem;
 }
 
 .game-card-label-container
@@ -133,4 +134,14 @@
     color: gold; 
     background-color: gold; 
     opacity: 100%;;
+}
+
+.margin-auto
+{
+    margin: auto;
+}
+
+.margin-top
+{
+    margin-top: 20px;
 }

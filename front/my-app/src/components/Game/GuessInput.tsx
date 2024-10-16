@@ -12,12 +12,30 @@ interface GuessInputProps {
     placeholder: string;
     onButtonClick: () => void;
     games: string[];
+    inputValue: string;
+    setInputValue: React.Dispatch<React.SetStateAction<string>>;
+    selectedValue: string | null;
+    setSelectedValue: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
-const GuessInput: React.FC<{ placeholder: string; onButtonClick: () => void; games: string[] }> = ({ placeholder, onButtonClick, games }) => {
+const GuessInput: React.FC<GuessInputProps> = ({
+    placeholder,
+    onButtonClick,
+    games,
+    inputValue,
+    setInputValue,
+    selectedValue,
+    setSelectedValue,
+}) => {
     return (
         <InputGroup className="mb-3 guess-input-group">
-            <DropDownMenu games={games}/>
+            <DropDownMenu
+                games={games}
+                inputValue={inputValue}
+                setInputValue={setInputValue}
+                selectedValue={selectedValue}
+                setSelectedValue={setSelectedValue}
+            />
             <Button className="guess-button" variant="warning" onClick={onButtonClick}>
                 <div className="paper-plane-icon-border">
                     <FontAwesomeIcon className="paper-plane-icon" icon={faPaperPlane} />

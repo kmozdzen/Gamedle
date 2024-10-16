@@ -1,36 +1,48 @@
 import "./Game.css";
-import React, { useState } from 'react';
+import React from 'react';
 import { Form } from 'react-bootstrap';
 import { Typeahead } from 'react-bootstrap-typeahead';
 
 interface Games {
-    games: string[]; // Typ dla przekazywanych gier
+    games: string[];
+    inputValue: string;
+    setInputValue: React.Dispatch<React.SetStateAction<string>>;
+    selectedValue: string | null;
+    setSelectedValue: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
-const DropDownMenu: React.FC<Games> = ({ games }) => { // Destrukturyzacja props
-  const [inputValue, setInputValue] = useState('');
-  const [selectedValue, setSelectedValue] = useState('');
-  // Używamy games jako źródła danych
-  const filteredOptions = (inputValue.length > 0) ? 
-    games.filter((game) => 
-      game.toLowerCase().startsWith(inputValue.toLowerCase()) // Filtrowanie gier na podstawie wprowadzonego tekstu
-    )
-    : [];
+const DropDownMenu: React.FC<Games> = ({
+    games,
+    inputValue,
+    setInputValue,
+    selectedValue,
+    setSelectedValue,
+}) => {
+    const filteredOptions = inputValue.length > 0
+        ? games.filter((game) =>
+            game.toLowerCase().startsWith(inputValue.toLowerCase())
+        )
+        : [];
 
-
-    console.log(inputValue)
-    console.log(selectedValue)
-  return (
-    <Form.Group className='game-drop-down-menu'>
-      <Typeahead
-        id="autocomplete-input"
-        options={filteredOptions} // Użycie przefiltrowanych opcji
-        placeholder="Wpisz nazwę gry..."
-        emptyLabel="Brak pasujących opcji"
-        onInputChange={setInputValue} // Ustawienie stanu na podstawie wprowadzonego tekstu
-      />
-    </Form.Group>
-  );
+    return (
+        <Form.Group className='game-drop-down-menu'>
+            <Typeahead
+                id="autocomplete-input"
+                options={filteredOptions}
+                placeholder="Wpisz nazwę gry..."
+                emptyLabel="Brak pasujących opcji"
+                onInputChange={setInputValue}
+                onChange={(selected) => {
+                    if (selected.length > 0) {
+                        setSelectedValue(selected[0] as string);
+                    } else {
+                        setSelectedValue(null);
+                    }
+                }}
+                selected={selectedValue ? [selectedValue] : []}
+            />
+        </Form.Group>
+    );
 };
 
 export default DropDownMenu;
