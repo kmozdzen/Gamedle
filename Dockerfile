@@ -1,8 +1,20 @@
-FROM maven:3.9.5-openjdk-21 AS build
+# Wybierz obraz Maven z kompatybilną wersją JDK
+FROM maven:3.9.5-eclipse-temurin-21 AS build
+
+# Skopiuj wszystkie pliki z projektu do obrazu
 COPY . .
+
+# Zbuduj aplikację bez uruchamiania testów (można to zmienić)
 RUN mvn clean package -DskipTests
 
-FROM openjdk:21-slim
+# Wybierz obraz OpenJDK dla uruchamiania aplikacji
+FROM eclipse-temurin:21-jdk-slim
+
+# Skopiuj wygenerowany plik JAR z etapu build
 COPY --from=build /target/gamedle-0.0.1-SNAPSHOT.jar gamedle.jar
+
+# Wystaw port 8080, na którym będzie działać aplikacja
 EXPOSE 8080
-ENTRYPOINT ["java","-jar","gamedle.jar"]
+
+# Zdefiniuj polecenie startowe aplikacji
+ENTRYPOINT ["java", "-jar", "gamedle.jar"]
