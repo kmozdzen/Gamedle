@@ -35,20 +35,20 @@ jobs:
     runs-on: windows-latest
     needs: build
     environment:
-      name: 'Production'
+      name: 'production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
-    
+
     steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
         with:
           name: java-app
-      
+
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
           app-name: 'Gamedle'
-          slot-name: 'Production'
+          slot-name: 'production'
           package: '*.jar'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_E84D8102897A4879A7F4F6BA77E81CAD }}
+          publish-profile: ${{ secrets.AzureAppService_PublishProfile_369235647794403390a1a28c437abda9 }}
