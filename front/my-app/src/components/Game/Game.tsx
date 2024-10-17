@@ -37,7 +37,7 @@ const Game = () => {
     useEffect(() => {
         const fetchGames = async () => {
             try {
-                const response = await axios.get<GameType[]>('http://localhost:8080/api/games/', {
+                const response = await axios.get<GameType[]>('https://gamedle-kk4y.onrender.com//api/games/', {
                     headers: {
                         'Content-Type': 'application/json',
                         'Accept': 'application/json'
