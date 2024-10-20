@@ -44,7 +44,10 @@
 }
 
 @media (max-width: 768px) {
- 
+    .start-up-menu div
+    {
+        width: 30%;
+    }
 }
 
 @media (max-width: 480px) {
