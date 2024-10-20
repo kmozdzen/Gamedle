@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./Game.css";
 import Header from "../Start/Header";
 import { Container, Row } from "react-bootstrap";
@@ -8,31 +8,76 @@ import GameCards from "./GameCards";
 import HeaderGameCard from "./HeaderGameCard";
 import Submit from "./Submit";
 
-interface GameType {
-    id: number;
+// Typ dla gry
+interface GenreType {
+    idGenre: number;
     name: string;
-    genre: string;
-    platform: string | null;
-    publisher: string;
+}
+
+interface PlatformType {
+    idPlatform: number;
+    name: string;
+}
+
+interface GameType {
+    idGame: number;
+    name: string;
+    genres: GenreType[]; // Lista gatunków
+    platforms: PlatformType[]; // Lista platform
+    publisher: string; // Pojedynczy string wydawcy
     year: number;
 }
 
-const gameToGuess = {
-    name: "The Last of Us Part II",
-    genre: "Akcja, Przygodowa",
-    platform: "PS4",
-    publisher: "Sony Interactive Entertainment",
-    year: 2020
-};
+// Typ do sprawdzenia gry
+interface CheckGameType {
+    name: boolean;
+    genre: boolean;
+    platform: boolean;
+    publisher: boolean;
+    year: boolean;
+}
 
 const Game = () => {
+    const [gameCheckStates, setGameCheckStates] = useState<Record<number, CheckGameType>>({});
     const [games, setGames] = useState<GameType[]>([]);
-    const [guessedGames, setGuessedGames] = useState<string[]>([]);
+    const [guessedGames, setGuessedGames] = useState<string[]>(() => {
+        const storedGuessedGames = localStorage.getItem('guessedGames');
+        return storedGuessedGames ? JSON.parse(storedGuessedGames) : [];
+    });
+
     const [inputValue, setInputValue] = useState('');
     const [selectedValue, setSelectedValue] = useState<string | null>(null);
     const [components, setComponents] = useState<JSX.Element[]>([]);
-    const [showMessage, setShowMessage] = useState(''); // Treść komunikatu
     const [submitComponents, setSubmitComponents] = useState<JSX.Element[]>([]);
+    const [showGuessInput, setShowGuessInput] = useState(true);
+    const [isLoading, setIsLoading] = useState(true); 
+
+    const submitRef = useRef<HTMLDivElement | null>(null);
+
+    useEffect(() => {
+        const updateGameToGuess = async () => {
+            try {
+                const response = await axios.get<GameType[]>('https://gamedle-kk4y.onrender.com/api/games/random', {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    }
+                });
+                if(localStorage.getItem('gameToGuess') != JSON.stringify(response.data)){
+                    localStorage.clear();
+                    setGuessedGames([]);
+                    setComponents([]);
+                    setGameCheckStates({});
+                    localStorage.setItem('gameToGuess', JSON.stringify(response.data));
+                }
+            } catch (error) {
+                console.error("Błąd podczas pobierania gier:", error);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+        updateGameToGuess();
+    }, []);
 
     useEffect(() => {
         const fetchGames = async () => {
@@ -46,78 +91,90 @@ const Game = () => {
                 setGames(response.data);
             } catch (error) {
                 console.error("Błąd podczas pobierania gier:", error);
+            } finally {
+                setIsLoading(false);
             }
         };
-
         fetchGames();
     }, []);
 
     const getGames = () => {
         const foundGame = games.find(game => inputValue === game.name || selectedValue === game.name);
-    
-        if (foundGame) {
-            if (!guessedGames.includes(foundGame.name)) {
-                const newComponent = createGameCardComponent(foundGame);
-                setGuessedGames([...guessedGames, foundGame.name]);
-                addComponentWithDelay(newComponent, foundGame); // Przekazanie foundGame
-            }
+
+        if (foundGame && !guessedGames.includes(foundGame.name)) {
+            setInputValue("");
+            setSelectedValue("");
+            setIsLoading(true);
+
+            const showFast = true;
+
+            axios.get<CheckGameType>(`https://gamedle-kk4y.onrender.com/${foundGame.idGame}`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                }
+            }).then((response) => {
+                console.log(response.data)
+                const newCheckGame = response.data;
+           
+                setGameCheckStates((prevStates) => ({
+                    ...prevStates,
+                    [foundGame.idGame]: newCheckGame,
+                }));
+
+                const newComponent = createGameCardComponent(foundGame, showFast, newCheckGame);
+                setComponents((prevComponents) => [newComponent, ...prevComponents]);
+
+                const updatedGuessedGames = [foundGame.name, ...guessedGames];
+                setGuessedGames(updatedGuessedGames);
+                localStorage.setItem('guessedGames', JSON.stringify(updatedGuessedGames));
+
+                if (newCheckGame.name) {
+                    setShowGuessInput(false);
+                    setSubmitComponents((prevComponents) => [
+                        <div ref={submitRef} key={Date.now()}>
+                            <Submit />
+                        </div>
+                    ]);
+                }
+            }).catch((error) => {
+                console.error("Błąd podczas pobierania stanu gry:", error);
+            }).finally(() => {
+                setIsLoading(false);
+            });
         }
     };
-    
-    const createGameCardComponent = (foundGame: GameType) => {
-        const nameBackgroundColor = foundGame.name === gameToGuess.name ? "green" : "red";
-        const yearBackgroundColor = foundGame.year === gameToGuess.year ? "green" : "red";
-        const genreBackgroundColor = foundGame.genre === gameToGuess.genre ? "green" : "red";
-        const platformBackgroundColor = foundGame.platform === gameToGuess.platform ? "green" : "red";
-        const publisherBackgroundColor = foundGame.publisher === gameToGuess.publisher ? "green" : "red";
 
+    const createGameCardComponent = (foundGame: GameType, showFast: boolean, checkGame: CheckGameType) => {
+        const nameBackgroundColor = checkGame.name ? "green" : "red"; 
+        const yearBackgroundColor = checkGame.year ? "green" : "red";
+        const genreBackgroundColor = checkGame.genre ? "green" : "red";
+        const platformBackgroundColor = checkGame.platform ? "green" : "red";
+        const publisherBackgroundColor = checkGame.publisher ? "green" : "red";
+    
         return (
             <GameCards
-                key={foundGame.id}
+                key={foundGame.idGame}
                 name={foundGame.name}
                 year={foundGame.year}
-                genre={foundGame.genre}
-                platform={foundGame.platform || "Nieznana"}
-                publisher={foundGame.publisher}
+                genre={foundGame.genres.map(genre => genre.name).join(', ')} // Wyświetlanie listy gatunków
+                platform={foundGame.platforms.map(platform => platform.name).join(', ') || "Nieznana"} // Wyświetlanie listy platform
+                publisher={foundGame.publisher} // Wyświetlanie pojedynczego stringu wydawcy
                 nameBackgroundColor={nameBackgroundColor}
                 yearBackgroundColor={yearBackgroundColor}
                 genreBackgroundColor={genreBackgroundColor}
                 platformBackgroundColor={platformBackgroundColor}
                 publisherBackgroundColor={publisherBackgroundColor}
+                showFast={showFast}
             />
         );
     };
 
-    const addComponentWithDelay = (newComponent: JSX.Element, foundGame: GameType) => {
-        setComponents((prevComponents) => [...prevComponents, newComponent]);
-
-        const delay = 500; // Opóźnienie 0.5 sekundy
-        const cardCount = 5; // Liczba kafelków do pokazania
-        
-        // Dodaj kafelki z opóźnieniem
-        for (let i = 0; i < cardCount; i++) {
-            setTimeout(() => {
-                setComponents((prevComponents) => {
-                    const newComponents = [...prevComponents];
-                    newComponents[newComponents.length - 1] = newComponent; // Zaktualizuj ostatni komponent
-                    return newComponents;
-                });
-            }, delay * i);
+    useEffect(() => {
+        if (submitComponents.length > 0 && submitRef.current) {
+            submitRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
-
-        // Ustaw komponent Submit po wyświetleniu wszystkich kafelków
-        setTimeout(() => {
-            if (foundGame.name === gameToGuess.name) {
-                setSubmitComponents((prevComponents) => [
-                    ...prevComponents,
-                    <Submit key={Date.now()} /> // Użyj unikalnego klucza
-                ]);
-                setShowMessage(`Brawo! Zgadłeś grę: ${foundGame.name}`); // Ustaw komunikat
-            } else {
-                setShowMessage(`Niestety, to nie ta gra: ${foundGame.name}. Spróbuj ponownie!`);
-            }
-        }, delay * cardCount); // Ustaw komunikat po zakończeniu opóźnienia
-    };
+    }, [submitComponents]);
 
     return (
         <div className="game-container d-flex justify-content-center align-items-center">
@@ -130,17 +187,21 @@ const Game = () => {
                     </div>
                 </Row>
                 <Row>
-                    <GuessInput 
-                        placeholder={"Odgadnij grę..."} 
-                        onButtonClick={getGames} 
-                        games={games.map((game) => game.name)}
-                        inputValue={inputValue}
-                        setInputValue={setInputValue}
-                        selectedValue={selectedValue}
-                        setSelectedValue={setSelectedValue}
-                    />
+                    {showGuessInput && ( 
+                        <GuessInput 
+                            placeholder={"Odgadnij grę..."} 
+                            onButtonClick={getGames} 
+                            games={games.map((game) => game.name)}
+                            guessedGames={guessedGames.map((game) => game)}
+                            inputValue={inputValue}
+                            setInputValue={setInputValue}
+                            selectedValue={selectedValue}
+                            setSelectedValue={setSelectedValue}
+                        />
+                    )}
                 </Row>
                 <HeaderGameCard />
+                
                 {components}
                 {submitComponents}
             </Container>
