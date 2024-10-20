@@ -108,7 +108,7 @@ const Game = () => {
 
             const showFast = true;
 
-            axios.get<CheckGameType>(`https://gamedle-kk4y.onrender.com/${foundGame.idGame}`, {
+            axios.get<CheckGameType>(`https://gamedle-kk4y.onrender.com/api/games/${foundGame.idGame}`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json'
