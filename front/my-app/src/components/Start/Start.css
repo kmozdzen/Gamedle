@@ -37,8 +37,20 @@
 
 .start-down-menu-row
 {
-    display: flex;                /* Ustawienie elastycznego kontenera */
-    flex: 1 1 auto;              /* Umożliwia elastyczne wypełnienie dostępnej przestrzeni */
-    justify-content: center;      /* Wyśrodkowanie w poziomie */
-    align-items: center;          /* Wyśrodkowanie w pionie */
+    display: flex;              
+    flex: 1 1 auto;         
+    justify-content: center;    
+    align-items: center;      
+}
+
+@media (max-width: 768px) {
+ 
+}
+
+@media (max-width: 480px) {
+
+    .start-up-menu div
+    {
+        width: 30%;
+    }
 }

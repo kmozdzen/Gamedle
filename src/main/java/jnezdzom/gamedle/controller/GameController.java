@@ -1,5 +1,6 @@
 package jnezdzom.gamedle.controller;
 
+import jnezdzom.gamedle.gameCheck.GameCheck;
 import jnezdzom.gamedle.model.Game;
 import jnezdzom.gamedle.service.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,4 +42,15 @@ public class GameController{
     Game update(@PathVariable int id, @RequestBody Game game){
         return gameService.update(id, game);
     }
+
+    @GetMapping("/random")
+    String getRandom() {
+        return gameService.getRandom();
+    }
+
+    @GetMapping("/check-random/{id}")
+    GameCheck checkRandom(@PathVariable int id) {
+        return gameService.checkRandom(id);
+    }
+
 }

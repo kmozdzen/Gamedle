@@ -13,7 +13,6 @@ const CategoryButton: React.FC<CategoryButtonProps> = ({ title, description, pag
     const navigate = useNavigate();
 
     const moveToClassicCategoryPage = () => {
-        console.log('asdasd')
         navigate(page);
     }
     

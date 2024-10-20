@@ -10,9 +10,14 @@
     box-sizing: border-box; /* Umożliwia lepsze zarządzanie wymiarami */
 }
 
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
 .start-container, .game-container {
     width: 100vw;
-    height: 100vh;
+    min-height: 100vh; /* Umożliwia przewijanie, jeśli zawartość jest większa */
     background-image: url('../../../public/images/game-background.jpg');
     background-size: cover;
     background-position: center;
@@ -20,6 +25,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    background-attachment: fixed;
 }
 
 .start-container .start-container-container, .game-container .game-container-container {
@@ -41,8 +47,15 @@
 .gear-icon {
     color: white;
     font-size: 2rem;
+    cursor: pointer;
 }
 
 .poland-icon {
     width: 40px;
+    cursor: pointer;
+}
+
+.logo-icon
+{
+    cursor: pointer;
 }

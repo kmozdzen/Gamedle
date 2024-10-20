@@ -108,7 +108,8 @@
 {
     margin: auto;
     text-align: center;
-    font-size: 1rem;
+    font-size: 0.7rem;
+    color: white;
 }
 
 .game-card-label-container
@@ -144,4 +145,77 @@
 .margin-top
 {
     margin-top: 20px;
+}
+
+.submit-menu
+{
+    background-color: black;
+    border-radius: 30px;
+    border: 3px solid gold;
+    height: 500px;
+    border-radius: 30px;
+    margin-top: 50px;
+
+    color: white;
+}
+
+.submit-title
+{
+    justify-content: center;
+    text-align: center;
+    margin: auto;
+}
+
+.submit-title h3
+{
+    margin: auto;
+}
+
+.submit-timer
+{
+    text-align: center;
+    margin: 0 auto;
+}
+
+.submit-timer span
+{
+    font-size: 3rem;
+}
+
+@media (max-width: 768px) {
+ 
+}
+
+@media (max-width: 480px) {
+    .guess-input-group
+    {
+        flex-direction: column;
+    }
+
+    .game-card
+    {
+        width: 3rem !important;
+        height: 3rem !important;
+    }
+
+    .game-card-title
+    {
+        font-size: 0.5rem;
+    }
+
+    #game-card-label-publisher
+    {
+        font-size: 0.8rem;
+    }
+
+    #game-card-label-platform
+    {
+        font-size: 0.8rem;
+    }
+
+    #game-card-label-genre
+    {
+        font-size: 0.8rem;
+    }
+    
 }

@@ -4,26 +4,41 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.util.List;
+
 @Entity
 @Data
 @Table(name = "game")
 public class Game {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int id;
+    private int idGame;
 
     @Column
-    String name;
+    private String name;
 
     @Column
-    int year;
+    private int year;
+
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "game_genre",
+            joinColumns = @JoinColumn(name = "idGame"),
+            inverseJoinColumns = @JoinColumn(name = "idGenre")
+    )
+    private List<Genre> genres;
+
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "game_platform",
+            joinColumns = @JoinColumn(name = "idGame"),
+            inverseJoinColumns = @JoinColumn(name = "idPlatform")
+    )
+    private List<Platform> platforms;
 
     @Column
-    String genre;
+    private String publisher;
 
     @Column
-    String platform;
-
-    @Column
-    String publisher;
+    private String code;
 }

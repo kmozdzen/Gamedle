@@ -12,6 +12,7 @@ interface GuessInputProps {
     placeholder: string;
     onButtonClick: () => void;
     games: string[];
+    guessedGames: string[];
     inputValue: string;
     setInputValue: React.Dispatch<React.SetStateAction<string>>;
     selectedValue: string | null;
@@ -22,6 +23,7 @@ const GuessInput: React.FC<GuessInputProps> = ({
     placeholder,
     onButtonClick,
     games,
+    guessedGames,
     inputValue,
     setInputValue,
     selectedValue,
@@ -30,7 +32,7 @@ const GuessInput: React.FC<GuessInputProps> = ({
     return (
         <InputGroup className="mb-3 guess-input-group">
             <DropDownMenu
-                games={games}
+                games={games.filter(game => !guessedGames.includes(game))}
                 inputValue={inputValue}
                 setInputValue={setInputValue}
                 selectedValue={selectedValue}
