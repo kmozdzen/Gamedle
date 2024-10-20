@@ -10,7 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/games")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "https://gamedle-khaki.vercel.app")
 public class GameController{
     private final GameService gameService;
 
