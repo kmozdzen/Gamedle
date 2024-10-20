@@ -63,6 +63,7 @@ const Game = () => {
                         'Accept': 'application/json'
                     }
                 });
+                console.log(response.data);
                 if(localStorage.getItem('gameToGuess') != JSON.stringify(response.data)){
                     localStorage.clear();
                     setGuessedGames([]);
@@ -108,7 +109,7 @@ const Game = () => {
 
             const showFast = true;
 
-            axios.get<CheckGameType>(`https://gamedle-kk4y.onrender.com/api/games/${foundGame.idGame}`, {
+            axios.get<CheckGameType>(`https://gamedle-kk4y.onrender.com/api/games/check-random/${foundGame.idGame}`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json'
