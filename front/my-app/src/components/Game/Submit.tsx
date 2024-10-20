@@ -16,7 +16,7 @@ const Submit = () => {
     function getTimeUntil14() {
         const now = new Date();
         const next14 = new Date();
-        next14.setHours(19, 25, 0, 0); 
+        next14.setHours(0, 0, 0, 0); 
 
         // Jeżeli już jest po 14:00, ustaw na następny dzień
         if (now > next14) {
